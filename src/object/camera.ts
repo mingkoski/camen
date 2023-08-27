@@ -1,5 +1,6 @@
 import { CamenObject } from "./object";
 import { common } from "../shader/common";
+import { Scene } from "./scene";
 
 interface CameraOption {
     canvas: HTMLCanvasElement;
@@ -7,9 +8,10 @@ interface CameraOption {
 
 export class Camera extends CamenObject {
     public canvas: HTMLCanvasElement;
-    renderPipeline: GPURenderPipeline;
-    commandEncoder: GPUCommandEncoder;
-    renderPassDescriptor: GPURenderPassDescriptor;
+    public parent?: Scene;
+    private _renderPipeline: GPURenderPipeline;
+    private _commandEncoder: GPUCommandEncoder;
+    private _renderPassDescriptor: GPURenderPassDescriptor;
 
     constructor(option?: CameraOption) {
         super();
@@ -27,14 +29,6 @@ export class Camera extends CamenObject {
         const shaderModule = window.camenDevice.createShaderModule({ code: common });
 
         console.log(`Max Buffer size of this device is ${window.camenDevice.limits.maxBufferSize}`);
-
-        const vertices = new Float32Array([0, 100, 0, 1, 100, 0, 0, 1, 200, 1, 0, 1]);
-        const gpuBufferDescriptor: GPUBufferDescriptor =
-            //{ size: window.dimenDevice.limits.maxBufferSize, usage: GPUBufferUsage.VERTEX | GPUBufferUsage.COPY_DST }
-            { size: vertices.byteLength, usage: GPUBufferUsage.VERTEX | GPUBufferUsage.COPY_DST }
-
-        const vertexBuffer = window.camenDevice.createBuffer(gpuBufferDescriptor);
-        window.camenDevice.queue.writeBuffer(vertexBuffer, 0, vertices, 0, vertices.length);
 
         const vertexBuffers: GPUVertexBufferLayout[] = [
             {
@@ -60,10 +54,10 @@ export class Camera extends CamenObject {
             layout: "auto",
         };
 
-        this.renderPipeline = window.camenDevice.createRenderPipeline(pipelineDescriptor);
-        this.commandEncoder = window.camenDevice.createCommandEncoder();
+        this._renderPipeline = window.camenDevice.createRenderPipeline(pipelineDescriptor);
+        this._commandEncoder = window.camenDevice.createCommandEncoder();
 
-        this.renderPassDescriptor = {
+        this._renderPassDescriptor = {
             colorAttachments: [
                 {
                     clearValue: {r: 1, g: 1, b: 1, a: 1}, loadOp: "clear", storeOp: "store",
@@ -74,13 +68,14 @@ export class Camera extends CamenObject {
     }
 
     public render() {
-        const passEncoder = this.commandEncoder.beginRenderPass(this.renderPassDescriptor);
+        if(!this.parent) { return; }
+        const passEncoder = this._commandEncoder.beginRenderPass(this._renderPassDescriptor);
 
-        passEncoder.setPipeline(this.renderPipeline);
-        passEncoder.setVertexBuffer(0, this.vertexBuffer);
+        passEncoder.setPipeline(this._renderPipeline);
+        passEncoder.setVertexBuffer(0, this.parent.vertexBuffer);
         passEncoder.draw(3);
         passEncoder.end();
     
-        window.camenDevice.queue.submit([this.commandEncoder.finish()]);
+        window.camenDevice.queue.submit([this._commandEncoder.finish()]);
     }
 }
