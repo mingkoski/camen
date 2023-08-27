@@ -62,7 +62,7 @@ export class Camera extends CamenObject {
     }
 
     public render() {
-        if() { return; }
+        //if() { return; }
         const passEncoder = this._commandEncoder.beginRenderPass(this._renderPassDescriptor);
 
         passEncoder.setPipeline(this._renderPipeline);
