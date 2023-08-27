@@ -1,8 +1,12 @@
-export class CamenObject {
-    public parent?: CamenObject;
-    
+import { Scene } from "./scene";
 
-    constructor () {
-        
+export class CamenObject {
+    _id: number;
+    get id() { return this._id; }
+    parent?: CamenObject = undefined;
+    children: CamenObject[] = [];
+
+    constructor() {
+
     }
-}
+};

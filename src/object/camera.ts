@@ -1,6 +1,6 @@
 import { CamenObject } from "./object";
-import { common } from "../shader/common";
 import { Scene } from "./scene";
+import { common } from "../shader/common";
 
 interface CameraOption {
     canvas: HTMLCanvasElement;
@@ -8,7 +8,7 @@ interface CameraOption {
 
 export class Camera extends CamenObject {
     public canvas: HTMLCanvasElement;
-    public parent?: Scene;
+    private _scene?: Scene = undefined;
     private _renderPipeline: GPURenderPipeline;
     private _commandEncoder: GPUCommandEncoder;
     private _renderPassDescriptor: GPURenderPassDescriptor;
@@ -19,12 +19,10 @@ export class Camera extends CamenObject {
             this.canvas = option.canvas ? option.canvas : document.createElement("canvas");
         }
 
+        const gpuTextureFormat = navigator.gpu.getPreferredCanvasFormat();
+
         const context = this.canvas.getContext("webgpu");
-        context.configure({
-            device: window.camenDevice,
-            format: navigator.gpu.getPreferredCanvasFormat(),
-            alphaMode: "premultiplied"
-        });
+        context.configure({ device: window.camenDevice, format: gpuTextureFormat, alphaMode: "premultiplied" });
 
         const shaderModule = window.camenDevice.createShaderModule({ code: common });
 
@@ -32,23 +30,19 @@ export class Camera extends CamenObject {
 
         const vertexBuffers: GPUVertexBufferLayout[] = [
             {
-                attributes: [
-                    { shaderLocation: 0, offset: 0, format: "float32x4" }
-                ],
+                attributes: [{ shaderLocation: 0, offset: 0, format: "float32x4" }],
                 arrayStride: 16, stepMode: "vertex",
             },
         ];
 
         const pipelineDescriptor: GPURenderPipelineDescriptor = {
             vertex: {
-                module: shaderModule,
-                entryPoint: "vertex_main",
+                module: shaderModule, entryPoint: "vertex_main",
                 buffers: vertexBuffers,
             },
             fragment: {
-                module: shaderModule,
-                entryPoint: "fragment_main",
-                targets: [{ format: navigator.gpu.getPreferredCanvasFormat() }]
+                module: shaderModule, entryPoint: "fragment_main",
+                targets: [{ format: gpuTextureFormat }]
             },
             primitive: { topology: "triangle-list" },
             layout: "auto",
@@ -68,7 +62,7 @@ export class Camera extends CamenObject {
     }
 
     public render() {
-        if(!this.parent) { return; }
+        if() { return; }
         const passEncoder = this._commandEncoder.beginRenderPass(this._renderPassDescriptor);
 
         passEncoder.setPipeline(this._renderPipeline);
@@ -78,4 +72,4 @@ export class Camera extends CamenObject {
     
         window.camenDevice.queue.submit([this._commandEncoder.finish()]);
     }
-}
+};

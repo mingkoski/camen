@@ -1,18 +1,16 @@
 import { CamenObject } from "./object";
+import { Mesh } from "./mesh";
+import { Camera } from "./camera";
 
-export class Scene extends CamenObject {
-    private _vertexBuffer: GPUBuffer;
-    public get vertexBuffer() { return this._vertexBuffer; }
+export class Scene {
+    _vertexBuffer: GPUBuffer;
+    _objects: Record<number, CamenObject> = {};
 
     constructor() {
-        super();
+
     }
 
     public add(object: CamenObject) {
-        object.parent = this;
+        this._objects[object._id] = object;
     }
-
-    public remove(object: CamenObject) {
-        object.parent = undefined;
-    }
-}
+};
