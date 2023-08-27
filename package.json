@@ -11,7 +11,7 @@
     "3d"
   ],
   "author": "mingkoski",
-  "license": "MIT",
+  "license": "CC0-1.0",
   "devDependencies": {
     "@webgpu/types": "^0.1.34",
     "sucrase": "^3.34.0",
