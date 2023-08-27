@@ -1,4 +1,4 @@
 ## CAMEN JS
 
 
-Currently, this project is work in progress
+Currently, this project is not completed
