@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "target": "ES2017",
+        "module": "ES2022",
+        "declaration": true,
+        "outDir": "dist",
+        "typeRoots" : ["./node_modules/@types", "./node_modules/@webgpu/types"] 
+    },
+    "include": ["src/**/*"]
+}
