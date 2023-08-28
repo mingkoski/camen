@@ -1,4 +1,4 @@
-import { CamenObject } from "./object";
+import { CamenObject } from "./object.js";
 
 export class World {
     protected _vertices: Float32Array;

@@ -5,5 +5,4 @@ declare global {
         camenCanvasFormat: GPUTextureFormat;
     }
 }
-
 export {};

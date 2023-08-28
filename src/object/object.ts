@@ -1,5 +1,5 @@
-import { Vector3 } from "../unit/vector";
-import { World } from "./world";
+import { Vector3 } from "../unit/vector.js";
+import { World } from "./world.js";
 
 export class CamenObject {
     protected _world: World | null;

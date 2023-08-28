@@ -1,6 +1,6 @@
-import { CamenObject } from "./object";
-import { World } from "./world";
-import { common } from "../shader/common";
+import { CamenObject } from "./object.js";
+import { World } from "./world.js";
+import { common } from "../shader/common.js";
 
 interface CameraOption {
     canvas?: HTMLCanvasElement;
