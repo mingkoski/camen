@@ -4,7 +4,7 @@
         "module": "ES2022",
         "strict": true,
         "declaration": true,
-        "outDir": "dist",
+        "outDir": "build",
         "typeRoots" : ["./node_modules/@types", "./node_modules/@webgpu/types"] 
     },
     "include": ["src/**/*"]
