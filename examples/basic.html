@@ -22,7 +22,7 @@
     <script type="importmap">
         {
             "imports": {
-                "camen": "../../build/index.js"
+                "camen": "../build/index.js"
             }
         }
     </script>
@@ -31,8 +31,13 @@
         if(!window.isCamenSupported) { console.log("This page is not valid on this device"); }
 
         const canvas = document.querySelector("#canvas");
+
+        const world = new Camen.World();
+
         const camera = new Camen.Camera({canvas: canvas});
         camera.render();
+
+        console.log(camera);
     </script>
 </body>
 </html>

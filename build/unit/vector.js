@@ -1,9 +1,1 @@
-"use strict";Object.defineProperty(exports, "__esModule", {value: true}); class Vector3 {
-    
-    
-    
-
-    constructor(x, y, z) {
-        
-    }
-} exports.Vector3 = Vector3;
+function i(i,t,n){return t in i?Object.defineProperty(i,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):i[t]=n,i}export var Vector3=function t(n,e,o){!function(i,t){if(!(i instanceof t))throw TypeError("Cannot call a class as a function")}(this,t),i(this,"_x",void 0),i(this,"_y",void 0),i(this,"_z",void 0),this._x=n||0,this._y=e||0,this._z=o||0};

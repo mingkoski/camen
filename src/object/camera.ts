@@ -3,76 +3,63 @@ import { World } from "./world";
 import { common } from "../shader/common";
 
 interface CameraOption {
-    canvas: HTMLCanvasElement;
+    canvas?: HTMLCanvasElement;
 }
 
 export class Camera extends CamenObject {
-    CANVAS: HTMLCanvasElement;
-    RENDER_PIPELINE: GPURenderPipeline;
-    COMMAND_ENCODER: GPUCommandEncoder;
-    RENDER_PASS_DESCRIPTOR: GPURenderPassDescriptor;
+    protected _canvas: HTMLCanvasElement;
+    protected _shaderModule: GPUShaderModule;
+    protected _renderPipeline: GPURenderPipeline | null;
+    protected _commandEncoder: GPUCommandEncoder | null;
+    protected _renderPassDescriptor: GPURenderPassDescriptor;
 
-    set World(world: World) {
+    get world(): World | null { return this._world; }
+    set world(value: World) {
+        const pipelineDescriptor: GPURenderPipelineDescriptor = {
+            vertex: {
+                module: this._shaderModule, entryPoint: "vertex_main",
+                buffers: value.vertexBufferLayouts
+            },
+            fragment: {
+                module: this._shaderModule, entryPoint: "fragment_main",
+                targets: [{ format: window.camenCanvasFormat }]
+            },
+            primitive: { topology: "triangle-list" },
+            layout: "auto"
+        };
 
+        this._renderPipeline = window.camenDevice.createRenderPipeline(pipelineDescriptor);
+        this._commandEncoder = window.camenDevice.createCommandEncoder();
     }
 
     constructor(option?: CameraOption) {
         super();
-        if (option) {
-            this.CANVAS = option.canvas ? option.canvas : document.createElement("canvas");
-        }
+        this._canvas = option ? (option.canvas ? option.canvas : document.createElement("canvas")) : document.createElement("canvas");
 
-        const gpuTextureFormat = navigator.gpu.getPreferredCanvasFormat();
-
-        const context = this.CANVAS.getContext("webgpu");
-        context.configure({ device: window.camenDevice, format: gpuTextureFormat, alphaMode: "premultiplied" });
-
-        const shaderModule = window.camenDevice.createShaderModule({ code: common });
-
-        console.log(`Max Buffer size of this device is ${window.camenDevice.limits.maxBufferSize}`);
-
-        const vertexBuffers: GPUVertexBufferLayout[] = [
-            {
-                attributes: [{ shaderLocation: 0, offset: 0, format: "float32x4" }],
-                arrayStride: 16, stepMode: "vertex",
-            },
-        ];
-
-        const pipelineDescriptor: GPURenderPipelineDescriptor = {
-            vertex: {
-                module: shaderModule, entryPoint: "vertex_main",
-                buffers: vertexBuffers,
-            },
-            fragment: {
-                module: shaderModule, entryPoint: "fragment_main",
-                targets: [{ format: gpuTextureFormat }]
-            },
-            primitive: { topology: "triangle-list" },
-            layout: "auto",
-        };
-
-        this.RENDER_PIPELINE = window.camenDevice.createRenderPipeline(pipelineDescriptor);
-        this.COMMAND_ENCODER = window.camenDevice.createCommandEncoder();
-
-        this.RENDER_PASS_DESCRIPTOR = {
+        const context = this._canvas.getContext("webgpu")!;
+        context.configure({ device: window.camenDevice, format: window.camenCanvasFormat, alphaMode: "premultiplied" });
+        this._shaderModule = window.camenDevice.createShaderModule({ code: common });
+        this._renderPipeline = null;
+        this._commandEncoder = null;
+        this._renderPassDescriptor = {
             colorAttachments: [
                 {
                     clearValue: {r: 1, g: 1, b: 1, a: 1}, loadOp: "clear", storeOp: "store",
                     view: context.getCurrentTexture().createView(),
                 },
-            ] as GPURenderPassColorAttachment[]
+            ]
         };
     }
 
     public render() {
-        if(!this.World) { return; }
-        const passEncoder = this.COMMAND_ENCODER.beginRenderPass(this.RENDER_PASS_DESCRIPTOR);
+        if(!this._world) { return; }
+        const passEncoder = this._commandEncoder!.beginRenderPass(this._renderPassDescriptor);
 
-        passEncoder.setPipeline(this.RENDER_PIPELINE);
-        passEncoder.setVertexBuffer(0, this._world._vertexBuffer);
-        passEncoder.draw(3);
+        passEncoder.setPipeline(this._renderPipeline!);
+        passEncoder.setVertexBuffer(0, this._world.vertexBuffer);
+        passEncoder.draw(this._world.vertices.length >> 2); // divide by 4
         passEncoder.end();
     
-        window.camenDevice.queue.submit([this.COMMAND_ENCODER.finish()]);
+        window.camenDevice.queue.submit([this._commandEncoder!.finish()]);
     }
 };

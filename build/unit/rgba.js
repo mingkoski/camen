@@ -1,3 +1,1 @@
-"use strict";Object.defineProperty(exports, "__esModule", {value: true}); class RGBA {
-    
-} exports.RGBA = RGBA;
+export var RGBA=function n(){!function(n,a){if(!(n instanceof a))throw TypeError("Cannot call a class as a function")}(this,n)};
