@@ -1,1 +1,5 @@
-export var RGBA=function n(){!function(n,a){if(!(n instanceof a))throw TypeError("Cannot call a class as a function")}(this,n)};
+export var RGBA = function RGBA() {
+    !function(instance, Constructor) {
+        if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
+    }(this, RGBA);
+};

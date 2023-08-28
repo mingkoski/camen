@@ -1,1 +1,13 @@
-function i(i,t,n){return t in i?Object.defineProperty(i,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):i[t]=n,i}export var Vector3=function t(n,e,o){!function(i,t){if(!(i instanceof t))throw TypeError("Cannot call a class as a function")}(this,t),i(this,"_x",void 0),i(this,"_y",void 0),i(this,"_z",void 0),this._x=n||0,this._y=e||0,this._z=o||0};
+function _define_property(obj, key, value) {
+    return key in obj ? Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: !0,
+        configurable: !0,
+        writable: !0
+    }) : obj[key] = value, obj;
+}
+export var Vector3 = function Vector3(x, y, z) {
+    !function(instance, Constructor) {
+        if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
+    }(this, Vector3), _define_property(this, "_x", void 0), _define_property(this, "_y", void 0), _define_property(this, "_z", void 0), this._x = x || 0, this._y = y || 0, this._z = z || 0;
+};

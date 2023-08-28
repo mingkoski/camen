@@ -1,1 +1,8 @@
-var r,o=(r=function(){return arguments,new Promise(function(r,o){})},function(){return r.apply(this,arguments)});await o();export{World}from"./object/world.js";export{Camera}from"./object/camera.js";
+var _ref, init = (_ref = function() {
+    return arguments, new Promise(function(resolve, reject) {});
+}, function() {
+    return _ref.apply(this, arguments);
+});
+await init();
+export { World } from "./object/world.js";
+export { Camera } from "./object/camera.js";
