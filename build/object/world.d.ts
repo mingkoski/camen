@@ -1,5 +1,5 @@
 /// <reference types="dist" />
-import { CamenObject } from "./object";
+import { CamenObject } from "./object.js";
 export declare class World {
     protected _vertices: Float32Array;
     get vertices(): Float32Array;

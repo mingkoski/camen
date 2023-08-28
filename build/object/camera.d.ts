@@ -1,6 +1,6 @@
 /// <reference types="dist" />
-import { CamenObject } from "./object";
-import { World } from "./world";
+import { CamenObject } from "./object.js";
+import { World } from "./world.js";
 interface CameraOption {
     canvas?: HTMLCanvasElement;
 }
