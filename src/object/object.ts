@@ -1,9 +1,15 @@
-import { Scene } from "./scene";
+import { World } from "./world";
 
-export class CamenObject {
-    _id: number;
-    get id() { return this._id; }
-    parent?: CamenObject = undefined;
+export abstract class CamenObject {
+    id: number; get Id() { return this.id; }
+
+    world: World | undefined = undefined;
+    abstract set World(world: World | undefined);
+
+    parent: CamenObject = undefined;
+    set Parent(parent: CamenObject | undefined) {};
+    get Parent() { return this.parent; };
+
     children: CamenObject[] = [];
 
     constructor() {

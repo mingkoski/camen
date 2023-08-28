@@ -1,5 +1,5 @@
 import { CamenObject } from "./object";
-import { Scene } from "./scene";
+import { World } from "./world";
 import { common } from "../shader/common";
 
 interface CameraOption {
@@ -7,21 +7,24 @@ interface CameraOption {
 }
 
 export class Camera extends CamenObject {
-    public canvas: HTMLCanvasElement;
-    private _scene?: Scene = undefined;
-    private _renderPipeline: GPURenderPipeline;
-    private _commandEncoder: GPUCommandEncoder;
-    private _renderPassDescriptor: GPURenderPassDescriptor;
+    CANVAS: HTMLCanvasElement;
+    RENDER_PIPELINE: GPURenderPipeline;
+    COMMAND_ENCODER: GPUCommandEncoder;
+    RENDER_PASS_DESCRIPTOR: GPURenderPassDescriptor;
+
+    set World(world: World) {
+
+    }
 
     constructor(option?: CameraOption) {
         super();
         if (option) {
-            this.canvas = option.canvas ? option.canvas : document.createElement("canvas");
+            this.CANVAS = option.canvas ? option.canvas : document.createElement("canvas");
         }
 
         const gpuTextureFormat = navigator.gpu.getPreferredCanvasFormat();
 
-        const context = this.canvas.getContext("webgpu");
+        const context = this.CANVAS.getContext("webgpu");
         context.configure({ device: window.camenDevice, format: gpuTextureFormat, alphaMode: "premultiplied" });
 
         const shaderModule = window.camenDevice.createShaderModule({ code: common });
@@ -48,10 +51,10 @@ export class Camera extends CamenObject {
             layout: "auto",
         };
 
-        this._renderPipeline = window.camenDevice.createRenderPipeline(pipelineDescriptor);
-        this._commandEncoder = window.camenDevice.createCommandEncoder();
+        this.RENDER_PIPELINE = window.camenDevice.createRenderPipeline(pipelineDescriptor);
+        this.COMMAND_ENCODER = window.camenDevice.createCommandEncoder();
 
-        this._renderPassDescriptor = {
+        this.RENDER_PASS_DESCRIPTOR = {
             colorAttachments: [
                 {
                     clearValue: {r: 1, g: 1, b: 1, a: 1}, loadOp: "clear", storeOp: "store",
@@ -62,14 +65,14 @@ export class Camera extends CamenObject {
     }
 
     public render() {
-        //if() { return; }
-        const passEncoder = this._commandEncoder.beginRenderPass(this._renderPassDescriptor);
+        if(!this.World) { return; }
+        const passEncoder = this.COMMAND_ENCODER.beginRenderPass(this.RENDER_PASS_DESCRIPTOR);
 
-        passEncoder.setPipeline(this._renderPipeline);
-        passEncoder.setVertexBuffer(0, this.parent.vertexBuffer);
+        passEncoder.setPipeline(this.RENDER_PIPELINE);
+        passEncoder.setVertexBuffer(0, this._world._vertexBuffer);
         passEncoder.draw(3);
         passEncoder.end();
     
-        window.camenDevice.queue.submit([this._commandEncoder.finish()]);
+        window.camenDevice.queue.submit([this.COMMAND_ENCODER.finish()]);
     }
 };

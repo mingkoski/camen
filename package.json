@@ -2,7 +2,7 @@
   "name": "camen",
   "version": "0.0.1",
   "description": "Destination of Realistic",
-  "main": "dist/index.js",
+  "main": "build/index.js",
   "type": "module",
   "scripts": {
     "build": "sucrase ./src -d ./build --transforms typescript,imports"

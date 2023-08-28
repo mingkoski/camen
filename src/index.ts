@@ -11,4 +11,4 @@ const init = async () => {
 await init();
 
 export { Camera } from "./object/camera.js";
-export { Scene } from "./object/scene.js";
+export { World as Scene } from "./object/world.js";
