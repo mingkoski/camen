@@ -2,7 +2,6 @@
 <html>
 <head>
     <meta charset="UTF-8"/>
-    <meta http-equiv="cache-control" content="no-cache"> 
     <style>
         * {
             margin: 0;
@@ -27,8 +26,7 @@
             }
         }
     </script>
-    <script type="module">
-        console.log("basic example");
+    <script nomodule="">
         import * as Camen from "camen";
         if(!window.isCamenSupported) { console.log("This page is not supported on this device"); }
 
@@ -38,7 +36,9 @@
         const camera = new Camen.Camera({canvas: canvas});
         camera.render();
 
-        console.log(camera);
+        window.onclick = () => {
+            console.log(camera);
+        }
     </script>
 </body>
 </html>
