@@ -1,5 +1,5 @@
 {
-    "minify": false,
+    "minify": true,
     "jsc": {
         "parser": {
             "syntax": "typescript",
@@ -11,7 +11,7 @@
             "compress": {
               "unused": true
             },
-            "mangle": false
+            "mangle": true
           }
     }
 }
