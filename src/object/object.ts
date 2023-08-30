@@ -11,7 +11,12 @@ export class CamenObject {
     public get id()                              { return this._id;        };
 
     public get world()                           { return this._world;     };
-    public set world(value: World | null)        { this._world = value;    };
+    public set world(value: World | null) {
+        if(this._world !== null && value === null) {
+            // TODO: world.remove
+        }
+        this._world = value;
+    };
 
     public get parent()                          { return this.parent;     };
     public set parent(value: CamenObject | null) { this._parent = value;   };

@@ -10,6 +10,7 @@ export class World {
     public get vertices()            { return this._vertices;            };
     public get vertexBuffer()        { return this._vertexBuffer;        };
     public get vertexBufferLayouts() { return this._vertexBufferLayouts; };
+    public get objects()             { return this._objects;             };
 
     constructor() {
         this._vertices = new Float32Array();

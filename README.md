@@ -1,4 +1,5 @@
-## CAMEN JS
+## CAMEN
 
+This project is for real-time Ray Tracing(or Path Tracing) using WebGPU.
 
-Currently, this project is not completed
+This project is not completed yet.

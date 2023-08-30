@@ -8,7 +8,7 @@
     "build": "npx swc ./src -d build --config-file .swcrc && tsc --emitDeclarationOnly"
   },
   "keywords": [
-    "3d"
+    "webgpu", "3d"
   ],
   "author": "mingkoski",
   "license": "CC0-1.0",
