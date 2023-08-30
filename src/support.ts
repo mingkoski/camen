@@ -1,4 +1,5 @@
-const init = async () => {
+await (async () => {
+    if(window.isCamenSupported !== undefined) { return; }
     window.isCamenSupported = "gpu" in navigator;
     if(window.isCamenSupported) { return; }
     
@@ -8,8 +9,6 @@ const init = async () => {
     window.camenDevice = await adapter.requestDevice();
 
     window.camenCanvasFormat = navigator.gpu.getPreferredCanvasFormat();
-}
-
-await init();
+})();
 
 export function isCamenSupported() { return window.isCamenSupported; }
