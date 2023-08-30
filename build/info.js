@@ -128,12 +128,12 @@ await (fn = function() {
         _next(void 0);
     });
 })();
-export var Camen = function() {
+export var Info = function() {
     var staticProps;
-    function Camen() {
+    function Info() {
         !function(instance, Constructor) {
             if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-        }(this, Camen);
+        }(this, Info);
     }
     return staticProps = [
         {
@@ -159,5 +159,5 @@ export var Camen = function() {
             var descriptor = props[i];
             descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
         }
-    }(Camen, staticProps), Camen;
+    }(Info, staticProps), Info;
 }();

@@ -5,8 +5,7 @@
   "main": "build/index.js",
   "type": "module",
   "scripts": {
-    "build": "npx swc ./src -d build --config-file .swcrc",
-    "typebuild": "tsc --emitDeclarationOnly"
+    "build": "npx swc ./src -d build --config-file .swcrc && tsc --emitDeclarationOnly"
   },
   "keywords": [
     "3d"

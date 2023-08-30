@@ -12,7 +12,7 @@ await (async () => {
     canvasFormat = navigator.gpu.getPreferredCanvasFormat();
 })();
 
-export class Camen {
+export class Info {
     public static isAvaliable() { return avaliable; }
     public static getDevice() { return device; }
     public static getCanvasFormat() { return canvasFormat; }

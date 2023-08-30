@@ -26,7 +26,7 @@ function _set_prototype_of(o, p) {
         return o.__proto__ = p, o;
     })(o, p);
 }
-import { Camen } from "../camen.js";
+import { Info } from "../info.js";
 import { CamenObject } from "./object.js";
 import { common } from "../shader/common.js";
 export var Camera = function(CamenObject) {
@@ -59,13 +59,13 @@ export var Camera = function(CamenObject) {
     function Camera(option) {
         !function(instance, Constructor) {
             if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-        }(this, Camera), _define_property(_assert_this_initialized(_this = _super.call(this)), "_device", void 0), _define_property(_assert_this_initialized(_this), "_canvasFormat", void 0), _define_property(_assert_this_initialized(_this), "_canvas", void 0), _define_property(_assert_this_initialized(_this), "_shaderModule", void 0), _define_property(_assert_this_initialized(_this), "_renderPipeline", void 0), _define_property(_assert_this_initialized(_this), "_commandEncoder", void 0), _define_property(_assert_this_initialized(_this), "_renderPassDescriptor", void 0), _this._canvas = option && option.canvas ? option.canvas : document.createElement("canvas"), _this._device = Camen.getDevice(), _this._canvasFormat = Camen.getCanvasFormat();
+        }(this, Camera), _define_property(_assert_this_initialized(_this = _super.call(this)), "_device", void 0), _define_property(_assert_this_initialized(_this), "_canvasFormat", void 0), _define_property(_assert_this_initialized(_this), "_canvas", void 0), _define_property(_assert_this_initialized(_this), "_shaderModule", void 0), _define_property(_assert_this_initialized(_this), "_renderPipeline", void 0), _define_property(_assert_this_initialized(_this), "_commandEncoder", void 0), _define_property(_assert_this_initialized(_this), "_renderPassDescriptor", void 0), _this._canvas = option && option.canvas ? option.canvas : document.createElement("canvas"), _this._device = Info.getDevice(), _this._canvasFormat = Info.getCanvasFormat();
         var _this, context = _this._canvas.getContext("webgpu");
         return context.configure({
             device: _this._device,
             format: _this._canvasFormat,
             alphaMode: "premultiplied"
-        }), _this._shaderModule = Camen.getDevice().createShaderModule({
+        }), _this._shaderModule = Info.getDevice().createShaderModule({
             code: common
         }), _this._renderPipeline = null, _this._commandEncoder = null, _this._renderPassDescriptor = {
             colorAttachments: [
@@ -118,7 +118,7 @@ export var Camera = function(CamenObject) {
             value: function() {
                 if (this._world) {
                     var passEncoder = this._commandEncoder.beginRenderPass(this._renderPassDescriptor);
-                    passEncoder.setPipeline(this._renderPipeline), passEncoder.setVertexBuffer(0, this._world.vertexBuffer), passEncoder.draw(this._world.vertices.length >> 2), passEncoder.end(), Camen.getDevice().queue.submit([
+                    passEncoder.setPipeline(this._renderPipeline), passEncoder.setVertexBuffer(0, this._world.vertexBuffer), passEncoder.draw(this._world.vertices.length >> 2), passEncoder.end(), Info.getDevice().queue.submit([
                         this._commandEncoder.finish()
                     ]);
                 }

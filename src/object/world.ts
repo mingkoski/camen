@@ -1,4 +1,4 @@
-import { Camen } from "../camen.js";
+import { Info } from "../info.js";
 import { CamenObject } from "./object.js";
 
 export class World {
@@ -12,7 +12,7 @@ export class World {
     protected _objects: Record<string, CamenObject> = {};
 
     constructor() {
-        this._device = Camen.getDevice();
+        this._device = Info.getDevice();
         this._vertices = new Float32Array();
 
         const gpuBufferDescriptor: GPUBufferDescriptor = {

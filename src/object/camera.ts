@@ -1,4 +1,4 @@
-import { Camen } from "../camen.js";
+import { Info } from "../info.js";
 import { CamenObject } from "./object.js";
 import { World } from "./world.js";
 import { common } from "../shader/common.js";
@@ -39,11 +39,11 @@ export class Camera extends CamenObject {
         super();
         this._canvas = option ? (option.canvas ? option.canvas : document.createElement("canvas")) : document.createElement("canvas");
 
-        this._device = Camen.getDevice();
-        this._canvasFormat = Camen.getCanvasFormat();
+        this._device = Info.getDevice();
+        this._canvasFormat = Info.getCanvasFormat();
         const context = this._canvas.getContext("webgpu")!;
         context.configure({ device: this._device, format: this._canvasFormat, alphaMode: "premultiplied" });
-        this._shaderModule = Camen.getDevice().createShaderModule({ code: common });
+        this._shaderModule = Info.getDevice().createShaderModule({ code: common });
         this._renderPipeline = null;
         this._commandEncoder = null;
         this._renderPassDescriptor = {
@@ -65,6 +65,6 @@ export class Camera extends CamenObject {
         passEncoder.draw(this._world.vertices.length >> 2); // divide by 4
         passEncoder.end();
     
-        Camen.getDevice().queue.submit([this._commandEncoder!.finish()]);
+        Info.getDevice().queue.submit([this._commandEncoder!.finish()]);
     }
 };
