@@ -1,28 +1,28 @@
-let avaliable = false;
+let available = false;
 let device: GPUDevice;
 let canvasFormat: GPUTextureFormat;
 
 await (async () => {
-    avaliable = "gpu" in navigator;
+    available = "gpu" in navigator;
     
     const adapter = await navigator.gpu.requestAdapter();
-    if (!adapter) { avaliable = false; return; }
+    if (!adapter) { available = false; return; }
     
     device = await adapter.requestDevice();
     canvasFormat = navigator.gpu.getPreferredCanvasFormat();
 })();
 
 class CamenInfo {
-    private _isAvaliable:  boolean;
+    private _isAvailable:  boolean;
     private _device:       GPUDevice;
     private _canvasFormat: GPUTextureFormat;
 
-    public get isAvailable()      { return this._isAvaliable; }
+    public get isAvailable()      { return this._isAvailable; }
     public get device()           { return this._device; }
     public get canvasFormat()     { return this._canvasFormat; }
 
     constructor() {
-        this._isAvaliable  = avaliable;
+        this._isAvailable  = available;
         this._device       = device;
         this._canvasFormat = canvasFormat;
     }

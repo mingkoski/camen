@@ -8,6 +8,7 @@ export declare class World {
     get vertices(): Float32Array;
     get vertexBuffer(): GPUBuffer;
     get vertexBufferLayouts(): GPUVertexBufferLayout[];
+    get objects(): Record<string, CamenObject>;
     constructor();
     add(object: CamenObject): void;
 }
