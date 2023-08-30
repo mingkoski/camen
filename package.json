@@ -1,6 +1,6 @@
 {
   "name": "camen",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Destination of Realistic",
   "main": "build/index.js",
   "type": "module",
@@ -14,7 +14,7 @@
   "license": "CC0-1.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mingkoski/camen"
+    "url": "https://github.com/mingkoski/camen.git"
   },
   "devDependencies": {
     "@swc/cli": "^0.1.62",
