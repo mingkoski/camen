@@ -1,6 +1,8 @@
+import { Camen } from "../camen.js";
 import { CamenObject } from "./object.js";
 
 export class World {
+    private _device: GPUDevice;
     protected _vertices: Float32Array;
     get vertices() { return this._vertices; }
     protected _vertexBuffer: GPUBuffer;
@@ -10,14 +12,15 @@ export class World {
     protected _objects: Record<string, CamenObject> = {};
 
     constructor() {
+        this._device = Camen.getDevice();
         this._vertices = new Float32Array();
 
         const gpuBufferDescriptor: GPUBufferDescriptor = {
-            size: window.camenDevice.limits.maxBufferSize,
+            size: this._device.limits.maxBufferSize,
             usage: GPUBufferUsage.VERTEX | GPUBufferUsage.COPY_DST
         }
 
-        this._vertexBuffer = window.camenDevice.createBuffer(gpuBufferDescriptor);
+        this._vertexBuffer = this._device.createBuffer(gpuBufferDescriptor);
 
         this._vertexBufferLayouts = [
             {

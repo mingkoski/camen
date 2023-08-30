@@ -7,7 +7,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
     }
     info.done ? resolve(value) : Promise.resolve(value).then(_next, _throw);
 }
-var fn, camenSupport = !1;
+var fn, device, canvasFormat, avaliable = !1;
 await (fn = function() {
     var adapter;
     return function(thisArg, body) {
@@ -97,12 +97,12 @@ await (fn = function() {
     }(this, function(_state) {
         switch(_state.label){
             case 0:
-                return camenSupport = "gpu" in navigator, [
+                return avaliable = "gpu" in navigator, [
                     4,
                     navigator.gpu.requestAdapter()
                 ];
             case 1:
-                if (!(adapter = _state.sent())) return camenSupport = !1, [
+                if (!(adapter = _state.sent())) return avaliable = !1, [
                     2
                 ];
                 return [
@@ -110,7 +110,7 @@ await (fn = function() {
                     adapter.requestDevice()
                 ];
             case 2:
-                return window.camenDevice = _state.sent(), window.camenCanvasFormat = navigator.gpu.getPreferredCanvasFormat(), [
+                return device = _state.sent(), canvasFormat = navigator.gpu.getPreferredCanvasFormat(), [
                     2
                 ];
         }
@@ -128,6 +128,36 @@ await (fn = function() {
         _next(void 0);
     });
 })();
-export function isCamenSupported() {
-    return camenSupport;
-}
+export var Camen = function() {
+    var staticProps;
+    function Camen() {
+        !function(instance, Constructor) {
+            if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
+        }(this, Camen);
+    }
+    return staticProps = [
+        {
+            key: "isAvaliable",
+            value: function() {
+                return avaliable;
+            }
+        },
+        {
+            key: "getDevice",
+            value: function() {
+                return device;
+            }
+        },
+        {
+            key: "getCanvasFormat",
+            value: function() {
+                return canvasFormat;
+            }
+        }
+    ], function(target, props) {
+        for(var i = 0; i < props.length; i++){
+            var descriptor = props[i];
+            descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+        }
+    }(Camen, staticProps), Camen;
+}();

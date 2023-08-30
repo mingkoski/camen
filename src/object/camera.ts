@@ -1,3 +1,4 @@
+import { Camen } from "../camen.js";
 import { CamenObject } from "./object.js";
 import { World } from "./world.js";
 import { common } from "../shader/common.js";
@@ -7,10 +8,12 @@ interface CameraOption {
 }
 
 export class Camera extends CamenObject {
-    protected _canvas: HTMLCanvasElement;
-    protected _shaderModule: GPUShaderModule;
-    protected _renderPipeline: GPURenderPipeline | null;
-    protected _commandEncoder: GPUCommandEncoder | null;
+    private   _device:               GPUDevice;
+    private   _canvasFormat:         GPUTextureFormat;
+    protected _canvas:               HTMLCanvasElement;
+    protected _shaderModule:         GPUShaderModule;
+    protected _renderPipeline:       GPURenderPipeline | null;
+    protected _commandEncoder:       GPUCommandEncoder | null;
     protected _renderPassDescriptor: GPURenderPassDescriptor;
 
     get world(): World | null { return this._world; }
@@ -22,23 +25,25 @@ export class Camera extends CamenObject {
             },
             fragment: {
                 module: this._shaderModule, entryPoint: "fragment_main",
-                targets: [{ format: window.camenCanvasFormat }]
+                targets: [{ format: this._canvasFormat }]
             },
             primitive: { topology: "triangle-list" },
             layout: "auto"
         };
 
-        this._renderPipeline = window.camenDevice.createRenderPipeline(pipelineDescriptor);
-        this._commandEncoder = window.camenDevice.createCommandEncoder();
+        this._renderPipeline = this._device.createRenderPipeline(pipelineDescriptor);
+        this._commandEncoder = this._device.createCommandEncoder();
     }
 
     constructor(option?: CameraOption) {
         super();
         this._canvas = option ? (option.canvas ? option.canvas : document.createElement("canvas")) : document.createElement("canvas");
 
+        this._device = Camen.getDevice();
+        this._canvasFormat = Camen.getCanvasFormat();
         const context = this._canvas.getContext("webgpu")!;
-        context.configure({ device: window.camenDevice, format: window.camenCanvasFormat, alphaMode: "premultiplied" });
-        this._shaderModule = window.camenDevice.createShaderModule({ code: common });
+        context.configure({ device: this._device, format: this._canvasFormat, alphaMode: "premultiplied" });
+        this._shaderModule = Camen.getDevice().createShaderModule({ code: common });
         this._renderPipeline = null;
         this._commandEncoder = null;
         this._renderPassDescriptor = {
@@ -60,6 +65,6 @@ export class Camera extends CamenObject {
         passEncoder.draw(this._world.vertices.length >> 2); // divide by 4
         passEncoder.end();
     
-        window.camenDevice.queue.submit([this._commandEncoder!.finish()]);
+        Camen.getDevice().queue.submit([this._commandEncoder!.finish()]);
     }
 };

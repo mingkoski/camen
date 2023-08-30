@@ -12,17 +12,18 @@ function _define_property(obj, key, value) {
         writable: !0
     }) : obj[key] = value, obj;
 }
+import { Camen } from "../camen.js";
 export var World = function() {
     var protoProps, staticProps;
     function World() {
         !function(instance, Constructor) {
             if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-        }(this, World), _define_property(this, "_vertices", void 0), _define_property(this, "_vertexBuffer", void 0), _define_property(this, "_vertexBufferLayouts", void 0), _define_property(this, "_objects", {}), this._vertices = new Float32Array();
+        }(this, World), _define_property(this, "_device", void 0), _define_property(this, "_vertices", void 0), _define_property(this, "_vertexBuffer", void 0), _define_property(this, "_vertexBufferLayouts", void 0), _define_property(this, "_objects", {}), this._device = Camen.getDevice(), this._vertices = new Float32Array();
         var gpuBufferDescriptor = {
-            size: window.camenDevice.limits.maxBufferSize,
+            size: this._device.limits.maxBufferSize,
             usage: GPUBufferUsage.VERTEX | GPUBufferUsage.COPY_DST
         };
-        this._vertexBuffer = window.camenDevice.createBuffer(gpuBufferDescriptor), this._vertexBufferLayouts = [
+        this._vertexBuffer = this._device.createBuffer(gpuBufferDescriptor), this._vertexBufferLayouts = [
             {
                 attributes: [
                     {

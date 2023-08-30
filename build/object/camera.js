@@ -26,6 +26,7 @@ function _set_prototype_of(o, p) {
         return o.__proto__ = p, o;
     })(o, p);
 }
+import { Camen } from "../camen.js";
 import { CamenObject } from "./object.js";
 import { common } from "../shader/common.js";
 export var Camera = function(CamenObject) {
@@ -58,13 +59,13 @@ export var Camera = function(CamenObject) {
     function Camera(option) {
         !function(instance, Constructor) {
             if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-        }(this, Camera), _define_property(_assert_this_initialized(_this = _super.call(this)), "_canvas", void 0), _define_property(_assert_this_initialized(_this), "_shaderModule", void 0), _define_property(_assert_this_initialized(_this), "_renderPipeline", void 0), _define_property(_assert_this_initialized(_this), "_commandEncoder", void 0), _define_property(_assert_this_initialized(_this), "_renderPassDescriptor", void 0), _this._canvas = option && option.canvas ? option.canvas : document.createElement("canvas");
+        }(this, Camera), _define_property(_assert_this_initialized(_this = _super.call(this)), "_device", void 0), _define_property(_assert_this_initialized(_this), "_canvasFormat", void 0), _define_property(_assert_this_initialized(_this), "_canvas", void 0), _define_property(_assert_this_initialized(_this), "_shaderModule", void 0), _define_property(_assert_this_initialized(_this), "_renderPipeline", void 0), _define_property(_assert_this_initialized(_this), "_commandEncoder", void 0), _define_property(_assert_this_initialized(_this), "_renderPassDescriptor", void 0), _this._canvas = option && option.canvas ? option.canvas : document.createElement("canvas"), _this._device = Camen.getDevice(), _this._canvasFormat = Camen.getCanvasFormat();
         var _this, context = _this._canvas.getContext("webgpu");
         return context.configure({
-            device: window.camenDevice,
-            format: window.camenCanvasFormat,
+            device: _this._device,
+            format: _this._canvasFormat,
             alphaMode: "premultiplied"
-        }), _this._shaderModule = window.camenDevice.createShaderModule({
+        }), _this._shaderModule = Camen.getDevice().createShaderModule({
             code: common
         }), _this._renderPipeline = null, _this._commandEncoder = null, _this._renderPassDescriptor = {
             colorAttachments: [
@@ -100,7 +101,7 @@ export var Camera = function(CamenObject) {
                         entryPoint: "fragment_main",
                         targets: [
                             {
-                                format: window.camenCanvasFormat
+                                format: this._canvasFormat
                             }
                         ]
                     },
@@ -109,7 +110,7 @@ export var Camera = function(CamenObject) {
                     },
                     layout: "auto"
                 };
-                this._renderPipeline = window.camenDevice.createRenderPipeline(pipelineDescriptor), this._commandEncoder = window.camenDevice.createCommandEncoder();
+                this._renderPipeline = this._device.createRenderPipeline(pipelineDescriptor), this._commandEncoder = this._device.createCommandEncoder();
             }
         },
         {
@@ -117,7 +118,7 @@ export var Camera = function(CamenObject) {
             value: function() {
                 if (this._world) {
                     var passEncoder = this._commandEncoder.beginRenderPass(this._renderPassDescriptor);
-                    passEncoder.setPipeline(this._renderPipeline), passEncoder.setVertexBuffer(0, this._world.vertexBuffer), passEncoder.draw(this._world.vertices.length >> 2), passEncoder.end(), window.camenDevice.queue.submit([
+                    passEncoder.setPipeline(this._renderPipeline), passEncoder.setVertexBuffer(0, this._world.vertexBuffer), passEncoder.draw(this._world.vertices.length >> 2), passEncoder.end(), Camen.getDevice().queue.submit([
                         this._commandEncoder.finish()
                     ]);
                 }

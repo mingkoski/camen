@@ -5,6 +5,8 @@ interface CameraOption {
     canvas?: HTMLCanvasElement;
 }
 export declare class Camera extends CamenObject {
+    private _device;
+    private _canvasFormat;
     protected _canvas: HTMLCanvasElement;
     protected _shaderModule: GPUShaderModule;
     protected _renderPipeline: GPURenderPipeline | null;

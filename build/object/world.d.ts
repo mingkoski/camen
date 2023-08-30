@@ -1,6 +1,7 @@
 /// <reference types="dist" />
 import { CamenObject } from "./object.js";
 export declare class World {
+    private _device;
     protected _vertices: Float32Array;
     get vertices(): Float32Array;
     protected _vertexBuffer: GPUBuffer;
