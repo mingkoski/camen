@@ -8,8 +8,6 @@ interface CameraOption {
 }
 
 export class Camera extends CamenObject {
-    private   _device:               GPUDevice;
-    private   _canvasFormat:         GPUTextureFormat;
     protected _canvas:               HTMLCanvasElement;
     protected _shaderModule:         GPUShaderModule;
     protected _renderPipeline:       GPURenderPipeline | null;
@@ -25,25 +23,23 @@ export class Camera extends CamenObject {
             },
             fragment: {
                 module: this._shaderModule, entryPoint: "fragment_main",
-                targets: [{ format: this._canvasFormat }]
+                targets: [{ format: Info.canvasFormat }]
             },
             primitive: { topology: "triangle-list" },
             layout: "auto"
         };
 
-        this._renderPipeline = this._device.createRenderPipeline(pipelineDescriptor);
-        this._commandEncoder = this._device.createCommandEncoder();
+        this._renderPipeline = Info.device.createRenderPipeline(pipelineDescriptor);
+        this._commandEncoder = Info.device.createCommandEncoder();
     }
 
     constructor(option?: CameraOption) {
         super();
         this._canvas = option ? (option.canvas ? option.canvas : document.createElement("canvas")) : document.createElement("canvas");
 
-        this._device = Info.getDevice();
-        this._canvasFormat = Info.getCanvasFormat();
         const context = this._canvas.getContext("webgpu")!;
-        context.configure({ device: this._device, format: this._canvasFormat, alphaMode: "premultiplied" });
-        this._shaderModule = Info.getDevice().createShaderModule({ code: common });
+        context.configure({ device: Info.device, format: Info.canvasFormat, alphaMode: "premultiplied" });
+        this._shaderModule = Info.device.createShaderModule({ code: common });
         this._renderPipeline = null;
         this._commandEncoder = null;
         this._renderPassDescriptor = {
@@ -65,6 +61,6 @@ export class Camera extends CamenObject {
         passEncoder.draw(this._world.vertices.length >> 2); // divide by 4
         passEncoder.end();
     
-        Info.getDevice().queue.submit([this._commandEncoder!.finish()]);
+        Info.device.queue.submit([this._commandEncoder!.finish()]);
     }
 };

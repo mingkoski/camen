@@ -12,8 +12,20 @@ await (async () => {
     canvasFormat = navigator.gpu.getPreferredCanvasFormat();
 })();
 
-export class Info {
-    public static isAvaliable() { return avaliable; }
-    public static getDevice() { return device; }
-    public static getCanvasFormat() { return canvasFormat; }
+class CamenInfo {
+    private _isAvaliable:  boolean;
+    private _device:       GPUDevice;
+    private _canvasFormat: GPUTextureFormat;
+
+    public get isAvailable()      { return this._isAvaliable; }
+    public get device()           { return this._device; }
+    public get canvasFormat()     { return this._canvasFormat; }
+
+    constructor() {
+        this._isAvaliable  = avaliable;
+        this._device       = device;
+        this._canvasFormat = canvasFormat;
+    }
 }
+
+export const Info = new CamenInfo();

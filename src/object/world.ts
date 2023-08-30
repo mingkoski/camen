@@ -12,7 +12,7 @@ export class World {
     protected _objects: Record<string, CamenObject> = {};
 
     constructor() {
-        this._device = Info.getDevice();
+        this._device = Info.device;
         this._vertices = new Float32Array();
 
         const gpuBufferDescriptor: GPUBufferDescriptor = {
