@@ -1,6 +1,6 @@
 {
   "name": "camen",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Destination of Realistic",
   "main": "build/index.js",
   "type": "module",
