@@ -1,14 +1,14 @@
+let camenSupport = false;
+
 await (async () => {
-    if(window.isCamenSupported !== undefined) { return; }
-    window.isCamenSupported = "gpu" in navigator;
-    if(window.isCamenSupported) { return; }
+    camenSupport = "gpu" in navigator;
     
     const adapter = await navigator.gpu.requestAdapter();
-    if (!adapter) { window.isCamenSupported = false; return; }
+    if (!adapter) { camenSupport = false; return; }
     
     window.camenDevice = await adapter.requestDevice();
 
     window.camenCanvasFormat = navigator.gpu.getPreferredCanvasFormat();
 })();
 
-export function isCamenSupported() { return window.isCamenSupported; }
+export function isCamenSupported() { return camenSupport; }

@@ -1,4 +1,3 @@
-var fn;
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
     try {
         var info = gen[key](arg), value = info.value;
@@ -8,6 +7,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
     }
     info.done ? resolve(value) : Promise.resolve(value).then(_next, _throw);
 }
+var fn, camenSupport = !1;
 await (fn = function() {
     var adapter;
     return function(thisArg, body) {
@@ -97,15 +97,12 @@ await (fn = function() {
     }(this, function(_state) {
         switch(_state.label){
             case 0:
-                if (void 0 !== window.isCamenSupported || (window.isCamenSupported = "gpu" in navigator, window.isCamenSupported)) return [
-                    2
-                ];
-                return [
+                return camenSupport = "gpu" in navigator, [
                     4,
                     navigator.gpu.requestAdapter()
                 ];
             case 1:
-                if (!(adapter = _state.sent())) return window.isCamenSupported = !1, [
+                if (!(adapter = _state.sent())) return camenSupport = !1, [
                     2
                 ];
                 return [
@@ -132,5 +129,5 @@ await (fn = function() {
     });
 })();
 export function isCamenSupported() {
-    return window.isCamenSupported;
+    return camenSupport;
 }
