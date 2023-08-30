@@ -8,16 +8,16 @@ export class CamenObject {
     protected _children: CamenObject[];
     protected _position: Vector3;
 
-    get id()                              { return this._id; }
+    public get id()                              { return this._id;        };
 
-    get world()                           { return this._world; }
-    set world(value: World | null)        { this._world = value; }
+    public get world()                           { return this._world;     };
+    public set world(value: World | null)        { this._world = value;    };
 
-    get parent()                          { return this.parent; };
-    set parent(value: CamenObject | null) { this._parent = value; };
-    
-    get position()                        { return this._position; }
-    set position(value: Vector3)          { this._position = value; }
+    public get parent()                          { return this.parent;     };
+    public set parent(value: CamenObject | null) { this._parent = value;   };
+
+    public get position()                        { return this._position;  };
+    public set position(value: Vector3)          { this._position = value; };
 
     constructor() {
         this._world = null;

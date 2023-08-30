@@ -14,8 +14,8 @@ export class Camera extends CamenObject {
     protected _commandEncoder:       GPUCommandEncoder | null;
     protected _renderPassDescriptor: GPURenderPassDescriptor;
 
-    get world(): World | null { return this._world; }
-    set world(value: World) {
+    public get world(): World | null { return this._world; }
+    public set world(value: World) {
         const pipelineDescriptor: GPURenderPipelineDescriptor = {
             vertex: {
                 module: this._shaderModule, entryPoint: "vertex_main",

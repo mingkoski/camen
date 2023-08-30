@@ -7,9 +7,9 @@ export class World {
     protected _vertexBufferLayouts: GPUVertexBufferLayout[];
     protected _objects: Record<string, CamenObject> = {};
 
-    get vertices() { return this._vertices; }
-    get vertexBuffer() { return this._vertexBuffer; }
-    get vertexBufferLayouts() { return this._vertexBufferLayouts; }
+    public get vertices()            { return this._vertices;            };
+    public get vertexBuffer()        { return this._vertexBuffer;        };
+    public get vertexBufferLayouts() { return this._vertexBufferLayouts; };
 
     constructor() {
         this._vertices = new Float32Array();
